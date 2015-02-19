@@ -1,0 +1,34 @@
+{
+  "name": "sequelize-json",
+  "version": "0.1.0",
+  "description": "Automatic serialization/parsing of JSON in your models",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "clear && mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Growmies/sequelize-json.git"
+  },
+  "keywords": [
+    "sequelize",
+    "json"
+  ],
+  "author": "Scott Hillman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Growmies/sequelize-json/issues"
+  },
+  "homepage": "https://github.com/Growmies/sequelize-json",
+  "devDependencies": {
+    "chai": "^2.0.0",
+    "mocha": "^2.1.0",
+    "sqlite3": "^3.0.5"
+  },
+  "dependencies": {
+    "sequelize": "^2.0.3"
+  }
+}
