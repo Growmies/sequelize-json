@@ -9,6 +9,8 @@ function JsonField(db, modelName, fieldName, options) {
       if (typeof instance.dataValues[fieldName] != 'string') {
         instance.setDataValue(fieldName, JSON.stringify(instance.getDataValue(fieldName)));
         return self;
+      } else if (instance.dataValues[fieldName] == 'null') {
+        instance.setDataValue(fieldName, null);
       }
     });
   });
