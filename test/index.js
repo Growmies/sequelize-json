@@ -20,7 +20,9 @@ describe('Test the various uses of the JSON field', function() {
 
     db
     .sync({ force: true })
-    .complete(done);
+    .then(function(db){
+      done()
+    });
   });
 
   it('Should test the basic use case of a JSON field', function(done) {
@@ -92,7 +94,7 @@ describe('Test the various uses of the JSON field', function() {
       return user.save();
     })
     .then(function(user) {
-      return User.find(user.id)
+      return User.findById(user.id)
     })
     .then(function(fetchedUser) {
       expect(fetchedUser.jsonField).to.be.a('object');
