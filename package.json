@@ -29,6 +29,6 @@
     "sqlite3": "^3.0.5"
   },
   "dependencies": {
-    "sequelize": "^2.0.3"
+    "sequelize": "^3.2.0"
   }
 }
