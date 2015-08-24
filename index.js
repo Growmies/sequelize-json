@@ -5,7 +5,7 @@ function JsonField(db, modelName, fieldName, options) {
   options = options || {};
 
   process.nextTick(function() {
-    db.models[modelName].hook('beforeValidate', function(instance) {
+    db.models[modelName].hook('beforeUpdate', function(instance) {
       if (typeof instance.dataValues[fieldName] != 'string') {
         instance.setDataValue(fieldName, JSON.stringify(instance.getDataValue(fieldName)));
         return self;
@@ -25,9 +25,9 @@ function JsonField(db, modelName, fieldName, options) {
       return this.dataValues[fieldName];
     },
     set: function(value) {
-      this.setDataValue(fieldName, JSON.stringify(value))
+      this.setDataValue(fieldName, JSON.stringify(value));
     }
-  }
+  };
 }
 
 module.exports = JsonField;

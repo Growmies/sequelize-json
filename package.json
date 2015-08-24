@@ -1,6 +1,6 @@
 {
   "name": "sequelize-json",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Automatic serialization/parsing of JSON in your models",
   "main": "index.js",
   "directories": {
@@ -29,6 +29,6 @@
     "sqlite3": "^3.0.5"
   },
   "dependencies": {
-    "sequelize": "^2.0.3"
+    "sequelize": "^3.6.0"
   }
 }
