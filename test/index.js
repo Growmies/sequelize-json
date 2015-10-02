@@ -119,5 +119,54 @@ describe('Test the various uses of the JSON field', function() {
     })
     .catch(done);
   });
+});
+
+describe('Test default values', function() {
+
+  beforeEach(function(done) {
+    db = new Sequelize('database', 'username', 'password', {
+      dialect: 'sqlite',
+      logging: false
+    });
+
+    User = db.define('User', {
+      username: Sequelize.STRING,
+      jsonField: new JsonField(db, 'User', 'jsonField', { defaultValue: { stuff: 'stuffValue' }})
+    });
+
+    db
+    .sync({ force: true })
+    .then(function() {
+      done();
+    });
+  });
+
+  it('Should be able to pass in a default value', function(done) {
+    User.create({
+      username: 'Scott'
+    })
+    .then(function(user) {
+      expect(user.jsonField).to.be.a('object');
+      expect(user.jsonField.stuff).to.equal('stuffValue');
+      done();
+    })
+    .catch(done);
+  });
+
+  it('You should be able to override the default value', function(done) {
+    User.create({
+      username: 'Scott',
+      jsonField: {
+        likes: ['running', 'node']
+      }
+    })
+    .then(function(user) {
+      user.jsonField.likes.push('tests');
+      expect(user.jsonField).to.be.a('object');
+      expect(user.jsonField.likes).to.have.length(3);
+      done();
+    })
+    .catch(done);
+  });
 
 });
