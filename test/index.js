@@ -119,6 +119,17 @@ describe('Test the various uses of the JSON field', function() {
     })
     .catch(done);
   });
+
+  it('Default value should be null if nothing is provided', function(done) {
+    User.create({
+      username: 'Scott'
+    })
+    .then(function(user) {
+      expect(user.jsonField).to.be.a('null');
+      done();
+    })
+    .catch(done);
+  });
 });
 
 describe('Test default values', function() {
@@ -168,5 +179,6 @@ describe('Test default values', function() {
     })
     .catch(done);
   });
+
 
 });

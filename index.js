@@ -27,7 +27,7 @@ function JsonField(db, modelName, fieldName, options) {
     set: function(value) {
       this.setDataValue(fieldName, JSON.stringify(value));
     },
-    defaultValue: options.defaultValue ? JSON.stringify(options.defaultValue) : '{}'
+    defaultValue: options.defaultValue ? JSON.stringify(options.defaultValue) : null
   };
 }
 
