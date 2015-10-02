@@ -120,12 +120,12 @@ describe('Test the various uses of the JSON field', function() {
     .catch(done);
   });
 
-  it('Default value should be null if nothing is provided', function(done) {
+  it('Default value should be undefined if nothing is provided', function(done) {
     User.create({
       username: 'Scott'
     })
     .then(function(user) {
-      expect(user.jsonField).to.be.a('null');
+      expect(user.jsonField).to.be.a('undefined');
       done();
     })
     .catch(done);
