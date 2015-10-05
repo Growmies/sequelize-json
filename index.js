@@ -6,16 +6,16 @@ function JsonField(db, modelName, fieldName, options) {
 
   process.nextTick(function() {
     db.models[modelName].hook('beforeUpdate', function(instance) {
-      if (typeof instance.dataValues[fieldName] != 'string') {
+      if (typeof instance.dataValues[fieldName] !== 'string' && instance.dataValues[fieldName]) {
         instance.setDataValue(fieldName, JSON.stringify(instance.getDataValue(fieldName)));
         return self;
-      } else if (instance.dataValues[fieldName] == 'null') {
+      } else if (instance.dataValues[fieldName] === 'null' || !instance.dataValues[fieldName]) {
         instance.setDataValue(fieldName, null);
       }
     });
   });
 
-  return {
+  var model = {
     type: options.type || Sequelize.TEXT,
     get: function() {
       var currentValue = this.getDataValue(fieldName);
@@ -26,9 +26,14 @@ function JsonField(db, modelName, fieldName, options) {
     },
     set: function(value) {
       this.setDataValue(fieldName, JSON.stringify(value));
-    },
-    defaultValue: options.defaultValue ? JSON.stringify(options.defaultValue) : undefined
+    }
   };
+
+  if (options.hasOwnProperty('defaultValue')) {
+    model.defaultValue = JSON.stringify(options.defaultValue);
+  }
+
+  return model;
 }
 
 module.exports = JsonField;
