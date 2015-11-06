@@ -10,7 +10,7 @@ function JsonField(db, modelName, fieldName, options) {
         instance.setDataValue(fieldName, JSON.stringify(instance.getDataValue(fieldName)));
         return self;
       } else if (instance.dataValues[fieldName] === 'null' || !instance.dataValues[fieldName]) {
-        instance.setDataValue(fieldName, null);
+        instance.setDataValue(fieldName, undefined);
       }
     }
     if (typeof db.models === 'object' && db.models.hasOwnProperty(modelName) && typeof db.models[modelName].hook === 'function') {
