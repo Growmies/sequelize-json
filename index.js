@@ -5,15 +5,17 @@ function JsonField(db, modelName, fieldName, options) {
   options = options || {};
 
   process.nextTick(function() {
+    function stringifyField(instance) {
+      if (typeof instance.dataValues[fieldName] !== 'string' && instance.dataValues[fieldName]) {
+        instance.setDataValue(fieldName, JSON.stringify(instance.getDataValue(fieldName)));
+        return self;
+      } else if (instance.dataValues[fieldName] === 'null' || !instance.dataValues[fieldName]) {
+        instance.setDataValue(fieldName, null);
+      }
+    }
     if (typeof db.models === 'object' && db.models.hasOwnProperty(modelName) && typeof db.models[modelName].hook === 'function') {
-      db.models[modelName].hook('beforeUpdate', function (instance) {
-        if (typeof instance.dataValues[fieldName] !== 'string' && instance.dataValues[fieldName]) {
-          instance.setDataValue(fieldName, JSON.stringify(instance.getDataValue(fieldName)));
-          return self;
-        } else if (instance.dataValues[fieldName] === 'null' || !instance.dataValues[fieldName]) {
-          instance.setDataValue(fieldName, null);
-        }
-      });
+      db.models[modelName].hook('beforeUpdate', stringifyField);
+      db.models[modelName].hook('beforeCreate', stringifyField);
     }
   });
 
