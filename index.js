@@ -1,5 +1,3 @@
-var Sequelize = require('sequelize');
-
 function JsonField(db, modelName, fieldName, options) {
   var self = this;
   options = options || {};
@@ -20,7 +18,7 @@ function JsonField(db, modelName, fieldName, options) {
   });
 
   var model = {
-    type: options.type || Sequelize.TEXT,
+    type: options.type || db.constructor.TEXT,
     get: function() {
       var currentValue = this.getDataValue(fieldName);
       if (typeof currentValue == 'string') {
