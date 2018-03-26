@@ -130,6 +130,17 @@ describe('Test the various uses of the JSON field', function() {
     })
     .catch(done);
   });
+  
+  it('Null should be passed as a possible value', function(done) {
+    User.create({
+      jsonField: null
+    })
+    .then(function(user) {
+      expect(user.jsonField).to.be.null;
+      done();
+    })
+    .catch(done);
+  });
 });
 
 describe('Test default values', function() {
@@ -179,6 +190,40 @@ describe('Test default values', function() {
     })
     .catch(done);
   });
+});
 
+describe('Test allowNull', function() {
 
+  beforeEach(function(done) {
+    db = new Sequelize('database', 'username', 'password', {
+      dialect: 'sqlite',
+      logging: false
+    });
+
+    User = db.define('User', {
+      username: Sequelize.STRING,
+      jsonField: new JsonField(db, 'User', 'jsonField', { allowNull: false })
+    });
+
+    db
+    .sync({ force: true })
+    .then(function() {
+      done();
+    });
+  });
+
+  it('Should reject null values with a SequelizeUniqueConstraintError', function(done) {
+    User.create({
+      username: 'Scott',
+      jsonField: null
+    })
+    .then(function() {
+      fail('null Value should have been rejected')
+      done()
+    })
+    .catch(function(error) {
+      expect(error).to.be.an.instanceof(Sequelize.UniqueConstraintError)
+      done()
+    });
+  }); 
 });
