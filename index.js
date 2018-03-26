@@ -9,7 +9,9 @@ function JsonField(db, modelName, fieldName, options) {
       if (typeof instance.dataValues[fieldName] !== 'string' && instance.dataValues[fieldName]) {
         instance.setDataValue(fieldName, JSON.stringify(instance.getDataValue(fieldName)));
         return self;
-      } else if (instance.dataValues[fieldName] === 'null' || !instance.dataValues[fieldName]) {
+      } else if (instance.dataValues[fieldName] === 'null') {
+        instance.setDataValue(fieldName, null);
+      } else if (typeof instance.dataValues[fieldName] === 'undefined') {
         instance.setDataValue(fieldName, undefined);
       }
     }
@@ -35,6 +37,10 @@ function JsonField(db, modelName, fieldName, options) {
 
   if (options.hasOwnProperty('defaultValue')) {
     model.defaultValue = JSON.stringify(options.defaultValue);
+  }
+
+  if (typeof options.allowNull === 'boolean') {
+    model.allowNull = options.allowNull;
   }
 
   return model;
